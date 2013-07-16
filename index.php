@@ -28,7 +28,7 @@ else
     $_REQUEST['count'] = intval($_REQUEST['count']);
 
 for ($y = 0; $y < $_REQUEST['count']; $y++) {
-    echo "Phase $y of ".$_REQUEST['count']."...\r\n";
+    echo "Phase `$y+1` of ".$_REQUEST['count']."...\r\n";
     
     $m = 1;
     $c = count($_REQUEST['url']);
@@ -48,11 +48,15 @@ for ($y = 0; $y < $_REQUEST['count']; $y++) {
             @flush();
 
             $time = microtime(true);
+            
+            $ckfile = tempnam ("/tmp", sha1($proxy['host'] . ':' . $proxy['port']));
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $request_url);
             curl_setopt($ch, CURLOPT_PROXY, $proxy['host'] . ':' . $proxy['port']);
             //curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+            curl_setopt($ch, CURLOPT_COOKIEJAR, $ckfile);
+            curl_setopt($ch, CURLOPT_COOKIEFILE, $ckfile);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -63,9 +67,11 @@ for ($y = 0; $y < $_REQUEST['count']; $y++) {
             echo str_repeat(' ', 10) . "Got result of size " . strlen($curl_scraped_page) . ".\r\n";
             echo str_repeat(' ', 10) . "Took " . abs(microtime(true) - $time) . "s\r\n";
             @ob_flush();
-            @flush();
+            @flush();            
         }
 
         $m++;
+        
+        sleep(mt_rand(0, 10));
     }
 }
