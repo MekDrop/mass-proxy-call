@@ -1,7 +1,8 @@
 <?php
 
-if (!isset($_REQUEST['url']))
-    die("Missing REUEST[url]");
+if (!isset($_REQUEST['url'])) {
+    die("Missing REQUEST[url]");
+}
 
 header('Content-Type: text/plain');
 header('Connection: Keep-Alive');
@@ -13,7 +14,7 @@ if (function_exists('apache_setenv')) {
 @ini_set('implicit_flush', 1);
 ob_implicit_flush(true);
 
-$proxies = file(__DIR__ . '/proxies.php');
+$proxies = file(__DIR__ . '/proxies.lst');
 
 echo "Loaded " . count($proxies) . ' proxies' . "\r\n";
 @ob_flush();
