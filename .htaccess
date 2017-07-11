@@ -1,0 +1,14 @@
+<Files ".gitignore">
+Order Allow,Deny
+Deny from all
+</Files>
+
+<Files "CONTRIBUTING.md">
+Order Allow,Deny
+Deny from all
+</Files>
+
+<Files "proxies.lst">
+Order Allow,Deny
+Deny from all
+</Files>
